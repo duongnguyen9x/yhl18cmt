@@ -1,0 +1,13 @@
+--- 
+- name: install zsh
+  apt: 
+    name: zsh
+
+- name: Template a file to /tmp/ohmyzsh.install
+  template:
+    src: templates/install.sh
+    dest: /tmp/ohmyzsh.install
+    owner: "{{ansible_user}}"
+    mode: '0755'
+- name: install oh-my-zsh
+  script: templates/install.sh
