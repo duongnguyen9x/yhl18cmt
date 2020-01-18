@@ -3,11 +3,20 @@
   apt: 
     name: zsh
 
-- name: Template a file to /tmp/ohmyzsh.install
-  template:
-    src: templates/install.sh
-    dest: /tmp/ohmyzsh.install
-    owner: "{{ansible_user}}"
-    mode: '0755'
+# - name: Template a file to /tmp/ohmyzsh.install
+#   template:
+#     src: templates/install.sh
+#     dest: /tmp/ohmyzsh.install
+#     owner: "{{ansible_user}}"
+#     mode: '0755'
 - name: install oh-my-zsh
-  script: templates/install.sh
+  script: scripts/install.sh
+  become_user: "{{ansible_user}}"
+  tags:
+    - zsh
+
+- name: copy zshrc
+  copy: src=config/.zshrc dest=/home/{{ansible_user}}/.zshrc owner={{ansible_user}} group={{ansible_user}} mode='u=rw'
+  tags:
+   - zsh
+  
